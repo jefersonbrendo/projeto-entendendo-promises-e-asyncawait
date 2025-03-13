@@ -38,4 +38,19 @@ inputUpload.addEventListener("change", async (event) => {
 })
 
 const inputCategoria = document.getElementById("categoria");
+const listaTags = document.querySelector(".lista-tags");
+
+inputCategoria.addEventListener("keypress", (evento) => {
+    if (evento.key === "Enter") {
+        evento.preventDefault();
+        const tagTexto = inputCategoria.value.trim();
+        if (tagTexto !== "") {
+            const tagNova = document.createElement("li");
+            tagNova.innerHTML = `<p>${tagTexto}</p> <img src="./img/close-black.svg" class="remove-tag">`
+            listaTags.appendChild(tagNova);
+            inputCategoria.value = "";
+        }
+
+    }
+})
 
