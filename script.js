@@ -46,7 +46,7 @@ inputCategoria.addEventListener("keypress", (evento) => {
         const tagTexto = inputCategoria.value.trim();
         if (tagTexto !== "") {
             const tagNova = document.createElement("li");
-            tagNova.innerHTML = `<p>${tagTexto}</p> <img src="./img/close-black.svg" class="remove-tag">`
+            tagNova.innerHTML = `<p>${tagTexto}</p> <img src="./img/close-black.svg" class="remove-tags">`
             listaTags.appendChild(tagNova);
             inputCategoria.value = "";
         }
@@ -54,3 +54,9 @@ inputCategoria.addEventListener("keypress", (evento) => {
     }
 })
 
+listaTags.addEventListener("click", (evento) => {
+    if (evento.target.classList.contains("remove-tags"))  {
+        const tagQueQueremosRemover = evento.target.parentElement;
+        listaTags.removeChild(tagQueQueremosRemover);
+    }
+})
