@@ -40,19 +40,6 @@ inputUpload.addEventListener("change", async (event) => {
 const inputCategoria = document.getElementById("categoria");
 const listaTags = document.querySelector(".lista-tags");
 
-inputCategoria.addEventListener("keypress", (evento) => {
-    if (evento.key === "Enter") {
-        evento.preventDefault();
-        const tagTexto = inputCategoria.value.trim();
-        if (tagTexto !== "") {
-            const tagNova = document.createElement("li");
-            tagNova.innerHTML = `<p>${tagTexto}</p> <img src="./img/close-black.svg" class="remove-tags">`
-            listaTags.appendChild(tagNova);
-            inputCategoria.value = "";
-        }
-
-    }
-})
 
 listaTags.addEventListener("click", (evento) => {
     if (evento.target.classList.contains("remove-tags"))  {
@@ -70,3 +57,44 @@ async function verificarTagsDisponiveis(tagTexto) {
         }, 1000)
     })
 }
+
+ inputCategoria.addEventListener("keypress", async (evento) => {
+    if (evento.key === "Enter") {
+        evento.preventDefault();
+        const tagTexto = inputCategoria.value.trim();
+        if (tagTexto !== "") {
+            try {
+                const tagExiste = await verificarTagsDisponiveis(tagTexto);
+                if (tagExiste) {
+                    const tagNova = document.createElement("li");
+                    tagNova.innerHTML = `<p>${tagTexto}</p> <img src="./img/close-black.svg" class="remove-tags">`
+                    listaTags.appendChild(tagNova);
+                    inputCategoria.value = "";
+                } else {
+                    alert("Tag não foi encontrada");
+                }
+                
+            } catch {
+                console.error("Erro ao verificar a existência da tag");
+                alert("Erro ao verificar a existência da tag. Verifique o console.");
+            }
+        }
+    }
+})
+
+const botaoPublicar = document.querySelector(".botao-publicar");
+
+botaoPublicar.addEventListener("click", async (evento) => {
+    evento.preventDefault();
+
+    const nomeDoProjeto = document.getElementById("nome").value;
+    const descricaoDoProjeto = document.getElementById("descricao").value;
+    const tagsProjeto = Array.from(listaTags.querySelectorAll("p")).map((tag) => tag.textContent);
+
+    console.log(nomeDoProjeto, descricaoDoProjeto, tagsProjeto)
+})
+
+
+
+
+
